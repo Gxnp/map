@@ -1,38 +1,44 @@
-.App {
-  text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
+/* app.css */
+@media only screen and (max-width: 768px) {
+  body {
+    width: 100%;
+    padding: 0;
+    display: block;
+    background-color: #fff; /* พื้นหลังของ body ยังเป็นสีขาว */
   }
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+/* กำหนดการตกแต่งให้กับ app เท่านั้น */
+.app {
+  width: 100%;
+  padding: 0;
+  max-width: 640px; /* ขนาดสูงสุดของ app */
+  margin: 0 auto; /* ทำให้แอปอยู่ตรงกลาง */
+  background-color: #000; /* พื้นหลังของ app เป็นสีดำ */
+  color: #fff; /* กำหนดสีตัวอักษรให้เป็นสีขาวเพื่ออ่านง่ายขึ้นบนพื้นดำ */
 }
 
-.App-link {
-  color: #61dafb;
+.leaflet-routing-alternatives-container {
+  background-color: rgba(255, 255, 255, 0.9); /* ตั้งค่าพื้นหลังโปร่งแสง */
+  padding: 10px; /* ระยะห่างภายในคอนเทนเนอร์ */
+  border-radius: 8px; /* ทำให้มุมโค้งมน */
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* ใส่เงาเพื่อความลึก */
+  max-width: 300px; /* จำกัดความกว้างสูงสุด */
+  overflow-y: auto; /* ให้แสดง scroll ถ้าความสูงเกิน */
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.leaflet-routing-alternatives-container .leaflet-routing-alt {
+  margin-bottom: 5px; /* ตั้งค่าระยะห่างระหว่างแต่ละเส้นทาง */
+  padding: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s; /* ใส่เอฟเฟคเวลาชี้เมาส์ */
+}
+
+.leaflet-routing-alternatives-container .leaflet-routing-alt:hover {
+  background-color: #f0f0f0; /* เปลี่ยนสีเมื่อชี้เมาส์ */
+}
+
+.leaflet-routing-alternatives-container .leaflet-routing-alt.selected {
+  background-color: #e0e0e0; /* สีพื้นหลังเมื่อเลือกเส้นทาง */
+  font-weight: bold; /* เน้นตัวหนา */
 }
