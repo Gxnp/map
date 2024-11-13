@@ -4,9 +4,10 @@ import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import 'leaflet-routing-machine/dist/leaflet-routing-machine.css';
 import 'leaflet-routing-machine';
+import './mapcom.css';
 import axios from 'axios';
 
-// กำหนดไอคอนใหม่สำหรับ Marker
+// ไอคอนสำหรับผู้ใช้
 const userIcon = L.icon({
   iconUrl: 'https://leafletjs.com/examples/custom-icons/leaf-red.png',
   shadowUrl: 'https://leafletjs.com/examples/custom-icons/leaf-shadow.png',
@@ -17,7 +18,35 @@ const userIcon = L.icon({
   popupAnchor: [-3, -76]
 });
 
+// ไอคอนสำหรับจุดวิน
+const winIcon = L.icon({
+  iconUrl: 'https://leafletjs.com/examples/custom-icons/leaf-red.png',
+  iconSize: [28, 50],
+  iconAnchor: [22, 44],
+  popupAnchor: [0, -30]
+});
 
+// ข้อมูลพิกัดและรายละเอียดของวินแต่ละจุด
+const winLocations = [
+  { lat: 13.730948075588573, lng: 100.78130671449425, name: 'วินที่ 1', description: 'วินใจดี ขับรถปลอดภัย' },
+  { lat: 13.7455, lng: 100.4926, name: 'วินที่ 2', description: 'วินสุภาพ ขับรถเร็ว' },
+  { lat: 13.7376, lng: 100.5155, name: 'วินที่ 3', description: 'วินบริการดี ราคาถูก' },
+];
+
+// Modal Component สำหรับแสดงรายละเอียดของวิน
+const Modal = ({ isOpen, onClose, title, description }) => {
+  if (!isOpen) return null;
+
+  return (
+    <div className="modal-overlay" onClick={onClose}>
+      <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+        <h2>{title}</h2>
+        <p>{description}</p>
+        <button onClick={onClose}>Close</button>
+      </div>
+    </div>
+  );
+};
 
 const MapComponent = () => {
   const [userLocation, setUserLocation] = useState(null);
@@ -25,6 +54,7 @@ const MapComponent = () => {
   const [map, setMap] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [distance, setDistance] = useState(null);
+  const [modalData, setModalData] = useState({ isOpen: false, title: '', description: '' });
 
   useEffect(() => {
     navigator.geolocation.getCurrentPosition((position) => {
@@ -37,9 +67,21 @@ const MapComponent = () => {
       const initializedMap = L.map('map').setView(userLocation, 13);
       setMap(initializedMap);
 
-      L.tileLayer(`https://api.maptiler.com/maps/basic/256/{z}/{x}/{y}.png?key=eRUWII73M4z5SSItDDnM`).addTo(initializedMap);
+      L.tileLayer(`https://api.maptiler.com/maps/basic/256/{z}/{x}/{y}.png?key=eRUWII73M4z5SSItDDnM	`).addTo(initializedMap);
 
       L.marker(userLocation, { icon: userIcon }).addTo(initializedMap).bindPopup("คุณอยู่ตรงนี้").openPopup();
+
+      // เพิ่ม Marker ของแต่ละวินและกำหนด onClick เพื่อเปิด Modal
+      winLocations.forEach((location) => {
+        L.marker([location.lat, location.lng], { icon: winIcon })
+          .addTo(initializedMap)
+          .on('click', () => handleMarkerClick(location));
+      });
+
+      initializedMap.on('click', (e) => {
+        const { lat, lng } = e.latlng;
+        setDestination([lat, lng]);
+      });
     }
   }, [userLocation, map]);
 
@@ -64,7 +106,6 @@ const MapComponent = () => {
 
       map._router = router;
 
-      // ย้ายคอนเทนเนอร์ของ Routing ไปยังตำแหน่งที่ต้องการ
       const routingContainer = document.querySelector('.leaflet-routing-container');
       const customContainer = document.getElementById('custom-routing-container');
       if (routingContainer && customContainer) {
@@ -76,7 +117,7 @@ const MapComponent = () => {
   const handleSearch = async () => {
     try {
       const response = await axios.get(
-        `https://api.opencagedata.com/geocode/v1/json?q=${encodeURIComponent(searchQuery)}&key=6a71776ee7104c609b98e74f09a76cfc`
+        `https://api.opencagedata.com/geocode/v1/json?q=${encodeURIComponent(searchQuery)}&key=YOUR_OPENCAGEDATA_KEY`
       );
       const { results } = response.data;
 
@@ -89,6 +130,18 @@ const MapComponent = () => {
     } catch (error) {
       console.error("Error fetching location data:", error);
     }
+  };
+
+  const handleMarkerClick = (location) => {
+    setModalData({
+      isOpen: true,
+      title: location.name,
+      description: location.description,
+    });
+  };
+
+  const closeModal = () => {
+    setModalData({ isOpen: false, title: '', description: '' });
   };
 
   return (
@@ -104,16 +157,23 @@ const MapComponent = () => {
         <button onClick={handleSearch} style={{ padding: "5px", marginLeft: "5px" }}>
           Search
         </button>
-        <p>อัตราค่าโดยสาร: {distance * 5} บาท</p>
+        <p>อัตราค่าโดยสาร: {distance ? distance * 5 : 0} บาท</p>
       </div>
       <div id="map" style={{ height: "70vh", marginBottom: "10px" }}></div>
-      
 
       {distance && (
         <div style={{ padding: "10px" }}>
           <p>Distance to destination: {distance} km</p>
         </div>
       )}
+
+      {/* Modal สำหรับแสดงรายละเอียดของแต่ละวิน */}
+      <Modal
+        isOpen={modalData.isOpen}
+        onClose={closeModal}
+        title={modalData.title}
+        description={modalData.description}
+      />
     </div>
   );
 };

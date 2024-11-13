@@ -18,27 +18,25 @@
   color: #fff; /* กำหนดสีตัวอักษรให้เป็นสีขาวเพื่ออ่านง่ายขึ้นบนพื้นดำ */
 }
 
-.leaflet-routing-alternatives-container {
-  background-color: rgba(255, 255, 255, 0.9); /* ตั้งค่าพื้นหลังโปร่งแสง */
-  padding: 10px; /* ระยะห่างภายในคอนเทนเนอร์ */
-  border-radius: 8px; /* ทำให้มุมโค้งมน */
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* ใส่เงาเพื่อความลึก */
-  max-width: 300px; /* จำกัดความกว้างสูงสุด */
-  overflow-y: auto; /* ให้แสดง scroll ถ้าความสูงเกิน */
+/* ปรับขนาดของ routing control */
+.leaflet-routing-container {
+  font-size: 12px; /* ปรับขนาดตัวอักษร */
+  height: auto; /* ปรับความสูง */
+  width: 250px; /* ปรับความกว้าง */
 }
 
-.leaflet-routing-alternatives-container .leaflet-routing-alt {
-  margin-bottom: 5px; /* ตั้งค่าระยะห่างระหว่างแต่ละเส้นทาง */
-  padding: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s; /* ใส่เอฟเฟคเวลาชี้เมาส์ */
+/* ปรับขนาดของปุ่มที่ใช้ใน routing */
+.leaflet-routing-container .leaflet-routing-button {
+  width: 24px;
+  height: 24px;
 }
 
-.leaflet-routing-alternatives-container .leaflet-routing-alt:hover {
-  background-color: #f0f0f0; /* เปลี่ยนสีเมื่อชี้เมาส์ */
+/* ปรับขนาดของปุ่มปิด */
+.leaflet-routing-container .leaflet-routing-close-button {
+  font-size: 10px;
 }
 
-.leaflet-routing-alternatives-container .leaflet-routing-alt.selected {
-  background-color: #e0e0e0; /* สีพื้นหลังเมื่อเลือกเส้นทาง */
-  font-weight: bold; /* เน้นตัวหนา */
+/* ปรับขนาดของเส้นทางที่แสดง */
+.leaflet-routing-container .leaflet-routing-route {
+  font-size: 10px; /* ขนาดตัวอักษร */
 }
