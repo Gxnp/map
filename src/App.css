@@ -12,7 +12,7 @@
 .app {
   width: 100%;
   padding: 0;
-  max-width: 640px; /* ขนาดสูงสุดของ app */
+  max-width: 430px; /* ขนาดสูงสุดของ app */
   margin: 0 auto; /* ทำให้แอปอยู่ตรงกลาง */
   background-color: #000; /* พื้นหลังของ app เป็นสีดำ */
   color: #fff; /* กำหนดสีตัวอักษรให้เป็นสีขาวเพื่ออ่านง่ายขึ้นบนพื้นดำ */
@@ -27,8 +27,8 @@
 
 /* ปรับขนาดของปุ่มที่ใช้ใน routing */
 .leaflet-routing-container .leaflet-routing-button {
-  width: 24px;
-  height: 24px;
+  width: 15px;
+  height: 15px;
 }
 
 /* ปรับขนาดของปุ่มปิด */
