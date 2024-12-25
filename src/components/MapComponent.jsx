@@ -408,14 +408,20 @@ const MapComponent = () => {
   return (
     <div>
       <div className="z-[1000] absolute flex justify-between top-3 left-[33vw] w-[30%] px-3 rounded-full border border-gray-300 shadow-sm bg-white bg-opacity-70">
-        <input
-          type="text"
-          placeholder="🔍 ค้นหาสถานที่"
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-          style={{ paddingRight: "200px", padding: "8px" }}
-          className="placeholder-gray-700 w-[80%] text-gray-900 text-sm cursor-pointer text-left bg-transparent"
-        />
+      <input
+  type="text"
+  placeholder="🔍 ค้นหาสถานที่"
+  value={searchQuery}
+  onChange={(e) => setSearchQuery(e.target.value)}
+  style={{
+    width: window.innerWidth < 640 ? "100%" : "80%", // ใช้ความกว้าง 100% ถ้าหน้าจอเล็กกว่า 640px
+    paddingRight: "200px",
+    padding: "8px",
+  }}
+  className="placeholder-gray-700 sm:w[100%] text-gray-900 text-sm cursor-pointer text-left bg-transparent"
+
+/>
+
         <button onClick={handleSearch}>Search</button>
       </div>
 
