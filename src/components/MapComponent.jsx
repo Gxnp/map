@@ -202,7 +202,9 @@ const Modal = ({ isOpen, onClose, title, description, pic }) => {
           <img src={pic} alt={title} />
         </div>
         <p className="text-gray-600 mt-2">{description}</p>
-        <p className="text-red-600  text-xs">ผู้โดยสารมีแนวโน้มถูกเรียกเก็บเงินเกินที่กำหนด</p>
+        <p className="text-red-600  text-xs">
+          ผู้โดยสารมีแนวโน้มถูกเรียกเก็บเงินเกินที่กำหนด
+        </p>
 
         {!showReportForm ? (
           <div className="flex gap-4 justify-center mt-6">
@@ -403,30 +405,25 @@ const MapComponent = () => {
   const toggleExpand = () => {
     setIsExpanded((prev) => !prev); // Toggle ค่า state
   };
-  
 
   return (
     <div>
-      <div className="z-[1000] absolute flex justify-between top-3 left-[33vw] w-[30%] px-3 rounded-full border border-gray-300 shadow-sm bg-white bg-opacity-70">
-      <input
-  type="text"
-  placeholder="🔍 ค้นหาสถานที่"
-  value={searchQuery}
-  onChange={(e) => setSearchQuery(e.target.value)}
-  style={{
-    width: window.innerWidth < 640 ? "100%" : "80%", // ใช้ความกว้าง 100% ถ้าหน้าจอเล็กกว่า 640px
-    paddingRight: "200px",
-    padding: "8px",
-  }}
-  className="placeholder-gray-700 sm:w[100%] text-gray-900 text-sm cursor-pointer text-left bg-transparent"
+      <div className="z-[1000] fixed top-0 left-1/2 transform -translate-x-1/2 mt-4 flex items-center justify-between rounded-full border border-gray-300 shadow-sm bg-white bg-opacity-70 px-4 py-2">
+        <input
+          type="text"
+          placeholder="🔍 ค้นหาสถานที่"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          style={{
+            width: "150px", // กำหนดความกว้างคงที่
+          }}
+          className="placeholder-gray-700 text-gray-900 text-sm bg-transparent outline-none"
+        />
+                <button onClick={handleSearch}>Search</button>
 
-/>
-
-        <button onClick={handleSearch}>Search</button>
       </div>
 
       <div
-
         id="map"
         style={{
           height: "100vh",
@@ -435,37 +432,34 @@ const MapComponent = () => {
         }}
       />
 
-      
-
-{distance && (
-  <div
-    className={`fixed z-[1000] bottom-0 left-1/2 transform -translate-x-1/2 w-full max-w-[640px] bg-[#D2691E] text-white p-4 rounded-t-2xl shadow-md text-base break-words flex-col transition-all duration-300 ${
-      isExpanded ? "h-auto flex" : "h-[50px] flex items-center"
-    }`}
-    onClick={toggleExpand} // คลิกเพื่อเปิด/ปิด
-  >
-    <div className="w-full text-center font-medium cursor-pointer">
-      {isExpanded ? "เลื่อนลงเพื่อเก็บ" : "กดเพื่อเปิด"}
-    </div>
-    {isExpanded && ( // แสดงข้อมูลเพิ่มเติมเมื่อขยาย
-      <>
-        <div className="flex justify-between w-full font-normal pb-3">
-          <span>ระยะทาง</span>
-          <span>{distance} km</span>
+      {distance && (
+        <div
+          className={`fixed z-[1000] bottom-0 left-1/2 transform -translate-x-1/2 w-full max-w-[640px] bg-[#D2691E] text-white p-4 rounded-t-2xl shadow-md text-base break-words flex-col transition-all duration-300 ${
+            isExpanded ? "h-auto flex" : "h-[50px] flex items-center"
+          }`}
+          onClick={toggleExpand} // คลิกเพื่อเปิด/ปิด
+        >
+          <div className="w-full text-center font-medium cursor-pointer">
+            {isExpanded ? "เลื่อนลงเพื่อเก็บ" : "กดเพื่อเปิด"}
+          </div>
+          {isExpanded && ( // แสดงข้อมูลเพิ่มเติมเมื่อขยาย
+            <>
+              <div className="flex justify-between w-full font-normal pb-3">
+                <span>ระยะทาง</span>
+                <span>{distance} km</span>
+              </div>
+              <div className="flex justify-between w-full font-normal pb-3">
+                <span>ค่าโดยสาร</span>
+                <span>{price} บาท</span>
+              </div>
+              <div className="flex justify-between w-full font-normal pb-3">
+                <span>เวลาประมาณ</span>
+                <span>{travelTime} นาที</span>
+              </div>
+            </>
+          )}
         </div>
-        <div className="flex justify-between w-full font-normal pb-3">
-          <span>ค่าโดยสาร</span>
-          <span>{price} บาท</span>
-        </div>
-        <div className="flex justify-between w-full font-normal pb-3">
-          <span>เวลาประมาณ</span>
-          <span>{travelTime} นาที</span>
-        </div>
-      </>
-    )}
-  </div>
-)}
-
+      )}
 
       <Modal
         isOpen={modalData.isOpen}
